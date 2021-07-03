@@ -1,5 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 
+const User = require('./user');
+
 class Wallet extends Model 
 {
     static init(connection) 
@@ -23,4 +25,4 @@ class Wallet extends Model
     }
 }
 
-module.exports = User;
+module.exports = Wallet;

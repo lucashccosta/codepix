@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 const databaseConfig = require('../config/database');
 
-const User = require('../models/user');
-const Wallet = require('../models/wallet');
+const User = require('../app/models/user');
+const Wallet = require('../app/models/wallet');
 
 const connection = new Sequelize(databaseConfig);
 
