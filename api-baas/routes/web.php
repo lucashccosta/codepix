@@ -13,6 +13,12 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->group(['middleware' => 'auth:api', 'prefix' => 'api', 'as' => 'api.'], function () use ($router) {
+    $router->group(['prefix' => 'transactions', 'as' => 'transactions.'], function () use ($router) {
+        $router->post('/', [
+            'middleware' => 'can:personal',
+            'as' => 'store',
+            'uses' => 'TransactionController@store'
+        ]);
+    });
 });

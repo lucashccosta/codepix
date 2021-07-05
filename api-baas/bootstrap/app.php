@@ -23,9 +23,8 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
-
-// $app->withEloquent();
+$app->withFacades();
+$app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -73,13 +72,14 @@ $app->configure('database');
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    App\Http\Middleware\WalletMiddleware::class
+]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'auth' => \App\Http\Middleware\Authenticate::class,
+    'can' => \Illuminate\Auth\Middleware\Authorize::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ $app->configure('database');
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

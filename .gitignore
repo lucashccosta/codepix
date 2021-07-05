@@ -2,6 +2,9 @@
 */.pnp
 */coverage
 */build
+*/vendor
+*/.vscode
+.vscode
 .pnp.js
 .DS_Store
 .env.local
