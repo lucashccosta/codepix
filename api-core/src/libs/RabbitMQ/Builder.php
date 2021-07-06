@@ -6,7 +6,7 @@ class Builder
 {
     private static $defaults = [
         'server' => [
-            'host' => 'localhost',
+            'host' => 'rabbitmq_docker',
             'port' => 5672,
             'user' => 'guest',
             'pass' => 'guest',
