@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\TransactionStatusEnum;
 use App\Libs\IMessageBroker;
-use App\Repositories\Contracts\IWalletRepository;
+use App\Listeners\TransactionListener;
 use Illuminate\Console\Command;
 
 class ConsumerCommand extends Command
@@ -35,26 +34,12 @@ class ConsumerCommand extends Command
      * @return mixed
      */
     public function handle()
-    {   
+    {
         $messageBroker = app()->make(IMessageBroker::class);
-        $walletRepository = app()->make(IWalletRepository::class);
         $messageBroker->consume(
-            $this->argument('queue'), 
-            function ($data) use ($walletRepository) {
-                if ($data['status'] === TransactionStatusEnum::SUCCESS) {
-                    $walletRepository->increment(
-                        $data['wallet_to'],
-                        'balance',
-                        (float) $data['total']
-                    );
-                }
-                else if ($data['status'] === TransactionStatusEnum::FAILED) {
-                    $walletRepository->increment(
-                        $data['wallet_from'],
-                        'balance',
-                        (float) $data['total']
-                    );
-                }
+            $this->argument('queue'),
+            function ($data) {
+                (new TransactionListener($data['status']))->listen($data);
             }
         );
     }
