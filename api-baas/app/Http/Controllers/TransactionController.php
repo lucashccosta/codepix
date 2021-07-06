@@ -22,6 +22,7 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
+        //TODO: validation request
         $transaction = $this->service->create(
             Auth::user(),
             $request->all()

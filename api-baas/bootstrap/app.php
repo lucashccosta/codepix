@@ -60,6 +60,7 @@ $app->singleton(
 
 $app->configure('app');
 $app->configure('database');
+$app->configure('amqp'); //rabbitmq
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +95,7 @@ $app->routeMiddleware([
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(Anik\Amqp\ServiceProviders\AmqpServiceProvider::class);
 // $app->register(App\Providers\FormRequestServiceProvider::class);
 
 /*

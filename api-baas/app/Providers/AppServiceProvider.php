@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Libs\IMessageBroker;
+use App\Libs\MessageBroker\RabbitMQ\RabbitMqProvider;
 use App\Repositories\Contracts\IKeyRepository;
 use App\Repositories\Contracts\ITransactionRepository;
 use App\Repositories\Contracts\IWalletRepository;
@@ -45,5 +47,6 @@ class AppServiceProvider extends ServiceProvider
     private function services()
     {
         $this->app->bind(ITransactionService::class, TransactionService::class);
+        $this->app->bind(IMessageBroker::class, RabbitMqProvider::class);
     }
 }

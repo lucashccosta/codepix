@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\TransactionStatusEnum;
+use App\Libs\IMessageBroker;
 use App\Models\User;
 use App\Repositories\Contracts\IKeyRepository;
 use App\Repositories\Contracts\ITransactionRepository;
@@ -29,14 +30,21 @@ class TransactionService implements ITransactionService
      */
     private $keyRepository;
 
+    /**
+     * @var IMessageBroker
+     */
+    private $messageBroker;
+
     public function __construct(
         ITransactionRepository $repository,
         IWalletRepository $walletRepository,
-        IKeyRepository $keyRepository
+        IKeyRepository $keyRepository,
+        IMessageBroker $messageBroker
     ) {
         $this->repository = $repository;
         $this->walletRepository = $walletRepository;
         $this->keyRepository = $keyRepository;
+        $this->messageBroker = $messageBroker;
     }
 
     public function create(User $user, array $data)
@@ -48,24 +56,26 @@ class TransactionService implements ITransactionService
         try {
             DB::beginTransaction();
 
-            //TODO: envia dados para rabbitmq
-            
             $key = $this->keyRepository->findOne(
                 ['key' => $data['key_code'], 'type' => $data['key_type']],
                 ['id', 'wallet_id']
             );
 
-            $transaction = $this->repository->create([
+            $data = [
                 'wallet_from' => $user->wallet->id,
                 'wallet_to' => $key->wallet_id,
                 'status' => TransactionStatusEnum::PROCESSING,
                 'total' => $data['total']
-            ]);
+            ];
+
+            $transaction = $this->repository->create($data);
 
             $this->walletRepository->update(
                 $user->wallet->id, 
                 ['balance' => $balance]
             );
+
+            $this->messageBroker->publish(json_encode($data), 'transactions');
 
             DB::commit();
 
