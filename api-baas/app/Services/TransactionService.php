@@ -75,7 +75,10 @@ class TransactionService implements ITransactionService
                 ['balance' => $balance]
             );
 
-            $this->messageBroker->publish(json_encode($data), 'transactions');
+            $this->messageBroker->publish(
+                json_encode(array_merge(['transaction' => $transaction->id], $data)), 
+                'transactions_request'
+            );
 
             DB::commit();
 
