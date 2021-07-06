@@ -5,7 +5,7 @@ namespace App\Libs;
 interface IMessageBroker
 {
     public function publish(
-        string $message, 
+        $message, 
         string $bindingKey,
         array $config = []
     );

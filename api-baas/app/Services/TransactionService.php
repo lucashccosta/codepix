@@ -76,7 +76,7 @@ class TransactionService implements ITransactionService
             );
 
             $this->messageBroker->publish(
-                json_encode(array_merge(['transaction' => $transaction->id], $data)), 
+                array_merge(['transaction' => $transaction->id], $data), 
                 'transactions_request'
             );
 

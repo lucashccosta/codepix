@@ -6,9 +6,9 @@
     "type": "project",
     "require": {
         "php": "^7.3|^8.0",
-        "anik/amqp": "^1.5",
         "firebase/php-jwt": "^5.4",
-        "laravel/lumen-framework": "^8.0"
+        "laravel/lumen-framework": "^8.0",
+        "php-amqplib/php-amqplib": "^3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
