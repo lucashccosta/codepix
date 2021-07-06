@@ -25,13 +25,13 @@ class CreateTransactionsTable extends Migration
 
             $table->foreign('wallet_from')
                 ->references('id')
-                ->on('users')
+                ->on('wallets')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
 
             $table->foreign('wallet_to')
                 ->references('id')
-                ->on('users')
+                ->on('wallets')
                 ->onUpdate('cascade')
                 ->onDelete('restrict');
         });

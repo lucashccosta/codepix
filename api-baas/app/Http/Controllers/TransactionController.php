@@ -2,22 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTransactionRequest;
+use App\Http\Resources\TransactionResource;
+use App\Services\Contracts\ITransactionService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * @var ITransactionService
      */
-    public function __construct()
+    private $service;
+
+    public function __construct(ITransactionService $service)
     {
-        //
+        $this->service = $service;
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        dd(Auth::user());
+        $transaction = $this->service->create(
+            Auth::user(),
+            $request->all()
+        );
+
+        return $this->responseCreated(new TransactionResource($transaction));
     }
 }

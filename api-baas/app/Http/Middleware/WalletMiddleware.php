@@ -3,12 +3,20 @@
 namespace App\Http\Middleware;
 
 use App\Models\Wallet;
+use App\Repositories\Contracts\IWalletRepository;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use RuntimeException;
 
 class WalletMiddleware
 {
+    private $walletRepository;
+
+    public function __construct()
+    {
+        $this->walletRepository = app()->make(IWalletRepository::class);
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -23,16 +31,12 @@ class WalletMiddleware
         }
 
         $httpWallet = $request->header('x-wallet');
-        $wallet = Wallet::select('id', 'type')
-            ->where(['id' => $httpWallet, 'user_id' => Auth::user()->id])
-            ->first();
-
-        if (empty($wallet)) {
-            throw new RuntimeException('Forbidden', 403);
-        }
-
+        $wallet = $this->walletRepository->findOne(
+            ['id' => $httpWallet, 'user_id' => Auth::user()->id],
+            ['id', 'type', 'balance', 'code']
+        );
+        
         Auth::user()->wallet = $wallet;
-
         return $next($request);
     }
 }
