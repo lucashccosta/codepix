@@ -10,19 +10,22 @@ class Provider implements IMessageBroker
 {
     public function publish(
         $message,
-        string $bindingKey,
+        string $queue,
         array $config = []
     ) {
-        Builder::queue($bindingKey, $config)->emit($message);
+        Builder::queue($queue, $config)->emit($message);
     }
 
     public function consume(
-        string $bindingKey,
+        string $queue,
+        callable $callback,
         array $config = []
     ) {
-        Builder::queue($bindingKey, $config)->receive(function ($data) {
-            Log::debug(json_encode($data));
-            //TODO: verify transaction status
-        });
+        Builder::queue($queue, $config)->receive(
+            function ($data) use($callback) {
+                Log::debug(json_encode($data));
+                call_user_func($callback, $data);
+            }
+        );
     }
 }

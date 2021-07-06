@@ -67,4 +67,11 @@ abstract class BaseRepository implements IBaseRepository
         $model->save();
         return $model;
     }
+
+    public function increment($id, string $column, float $value)
+    {
+        return $this->model
+            ->findOrFail($id)
+            ->increment($column, $value);
+    }
 } 

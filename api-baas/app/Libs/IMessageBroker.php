@@ -6,11 +6,12 @@ interface IMessageBroker
 {
     public function publish(
         $message, 
-        string $bindingKey,
+        string $queue,
         array $config = []
     );
     public function consume(
-        string $bindingKey,
+        string $queue,
+        callable $callable,
         array $config = []
     );
 }

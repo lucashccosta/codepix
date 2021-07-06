@@ -9,4 +9,5 @@ interface IBaseRepository
     public function findWhere(array $where, array $columns = ['*']);
     public function create(array $data);
     public function update(string $id, array $data);
+    public function increment($id, string $column, float $value);
 }
