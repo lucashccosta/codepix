@@ -1,0 +1,22 @@
+{
+    "name": "codesoftware/api-core",
+    "description": "Core to codepix bank system",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Lucas Costa",
+            "email": "lucas.hcruz.costa@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.3",
+        "php-amqplib/php-amqplib": "^3.0",
+        "guzzlehttp/guzzle": "^7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/app/",
+            "Libs\\": "src/libs/"
+        }
+    }
+}
