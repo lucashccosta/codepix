@@ -37,6 +37,7 @@ services:
             - app_network
         env_file:
             - ./.docker/api-identity.env
+        restart: always
         depends_on: 
             - db
 
@@ -49,6 +50,7 @@ services:
             - app_network
         env_file:
             - ./.docker/api-baas.env
+        restart: always
         depends_on: 
             - db
             - broker
@@ -62,6 +64,7 @@ services:
             - app_network
         env_file:
             - ./.docker/api-core.env
+        restart: always
         depends_on: 
             - db
             - broker
