@@ -1,0 +1,77 @@
+version: '3.1'
+
+services: 
+    db:
+        container_name: codepix_postgres_db
+        image: postgres
+        volumes: 
+            - db_data:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
+        networks: 
+            - app_network
+        restart: always
+        env_file:
+            - ./.docker/db.env
+
+    broker:
+        container_name: codepix_rabbitmq_broker
+        image: rabbitmq:3-management
+        ports:
+            - 5672:5672
+            - 15672:15672
+        volumes:
+          - broker_data:/var/lib/rabbitmq/
+        networks: 
+            - app_network
+        restart: always
+        env_file:
+            - ./.docker/broker.env
+    
+    api-identity:
+        container_name: codepix_api_identity
+        build: ./api-identity
+        ports: 
+            - 3020:3020
+        networks: 
+            - app_network
+        env_file:
+            - ./.docker/api-identity.env
+        depends_on: 
+            - db
+
+    api-baas:
+        container_name: codepix_api_baas
+        build: ./api-baas
+        ports: 
+            - 3030:3030
+        networks: 
+            - app_network
+        env_file:
+            - ./.docker/api-baas.env
+        depends_on: 
+            - db
+            - broker
+
+    api-core:
+        container_name: codepix_api_core
+        build: ./api-core
+        ports: 
+            - 3040:3040
+        networks: 
+            - app_network
+        env_file:
+            - ./.docker/api-core.env
+        depends_on: 
+            - db
+            - broker
+
+volumes:
+  db_data: {}
+  broker_data: {}
+
+networks:
+  app_network:
+    driver: bridge
+    
+        

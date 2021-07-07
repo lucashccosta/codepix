@@ -6,5 +6,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 WORKDIR /app
 COPY . /app
 RUN composer install
+RUN mv .env.example .env
 EXPOSE 3030
 CMD ["php", "-S", "0.0.0.0:3030", "-t", "public"]
