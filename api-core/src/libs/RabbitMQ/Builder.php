@@ -4,36 +4,40 @@ namespace Libs\RabbitMQ;
 
 class Builder
 {
-    private static $defaults = [
-        'server' => [
-            'host' => 'rabbitmq_docker',
-            'port' => 5672,
-            'user' => 'guest',
-            'pass' => 'guest',
-            'vhost' => 'bank_codepix'
-        ],
-        'queue'    => [
-            'queue'    => [
-                'passive'     => false,
-                'durable'     => true,
-                'exclusive'   => false,
-                'auto_delete' => false,
-                'nowait'      => false,
-            ],
-            'consumer' => [
-                'no_local'  => false,
-                'no_ack'    => false,
-                'exclusive' => false,
-                'nowait'    => false,
-            ],
-        ],
-    ];
+    private static $config = [];
 
-    public static function queue($name, $server)
+    public static function getInstance()
     {
-        // $conf = self::$defaults['queue'];
-        // $conf['server'] = $server;
+        self::$config = [
+            'server' => [
+                'host' => $_ENV['AMQP_HOST'] ?? 'localhost',
+                'port' => $_ENV['AMQP_PORT'] ?? 5672,
+                'user' => $_ENV['AMQP_USERNAME'] ?? 'guest',
+                'pass' => $_ENV['AMQP_PASSWORD'] ?? 'guest',
+                'vhost' => $_ENV['AMQP_VHOST'] ?? '/'
+            ],
+            'queue'    => [
+                'queue'    => [
+                    'passive'     => false,
+                    'durable'     => true,
+                    'exclusive'   => false,
+                    'auto_delete' => false,
+                    'nowait'      => false,
+                ],
+                'consumer' => [
+                    'no_local'  => false,
+                    'no_ack'    => false,
+                    'exclusive' => false,
+                    'nowait'    => false,
+                ],
+            ],
+        ];
 
-        return new Queue($name, self::$defaults);
+        return new static;
+    }
+
+    public function queue($name, $server)
+    {
+        return new Queue($name, self::$config);
     }
 }

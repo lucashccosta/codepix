@@ -9,7 +9,9 @@ class Provider
         string $queue,
         array $config = []
     ) {
-        Builder::queue($queue, $config)->emit($message);
+        Builder::getInstance()
+            ->queue($queue, $config)
+            ->emit($message);
     }
 
     public function consume(
@@ -17,10 +19,12 @@ class Provider
         callable $callback,
         array $config = []
     ) {
-        Builder::queue($queue, $config)->receive(
-            function ($data) use($callback) {
-                call_user_func($callback, $data);
-            }
-        );
+        Builder::getInstance()
+            ->queue($queue, $config)
+            ->receive(
+                function ($data) use($callback) {
+                    call_user_func($callback, $data);
+                }
+            );
     }
 }
