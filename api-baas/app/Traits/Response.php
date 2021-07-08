@@ -56,21 +56,21 @@ trait Response
         }
 
 
-        if (isset($data['exception']) && ($data['exception'] instanceof Error || $data['exception'] instanceof Exception)) {
-            if (config('app.debug') === true) {
-                $responseStructure['exception'] = [
-                    'message' => $data['exception']->getMessage(),
-                    'file' => $data['exception']->getFile(),
-                    'line' => $data['exception']->getLine(),
-                    'code' => $data['exception']->getCode(),
-                    'trace' => $data['exception']->getTrace(),
-                ];
-            }
+        // if (isset($data['exception']) && ($data['exception'] instanceof Error || $data['exception'] instanceof Exception)) {
+        //     if (config('app.debug') === true) {
+        //         $responseStructure['exception'] = [
+        //             'message' => $data['exception']->getMessage(),
+        //             'file' => $data['exception']->getFile(),
+        //             'line' => $data['exception']->getLine(),
+        //             'code' => $data['exception']->getCode(),
+        //             'trace' => $data['exception']->getTrace(),
+        //         ];
+        //     }
 
-            if ($statusCode === 200) {
-                $statusCode = 500;
-            }
-        }
+        //     if ($statusCode === 200) {
+        //         $statusCode = 500;
+        //     }
+        // }
         
         return ["content" => $responseStructure, "statusCode" => $statusCode, "headers" => $headers];
     }
