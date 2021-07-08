@@ -103,4 +103,4 @@ com toda a infraestrutura de banco de dados e filas.
         ```
 
 ## Autor
-Lucas Costa – [Linkedin](https://www.linkedin.com/in/lucashcruzcosta/) - [CodeSoftware](https://www.codesoftware.me)
+Lucas Costa – [Linkedin](https://www.linkedin.com/in/lucashcruzcosta/)
