@@ -3,8 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Enums\WalletTypeEnum;
-use App\Models\User;
-use App\Models\Wallet;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use RuntimeException;

@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Wallet;
+use App\Exceptions\RuntimeException;
 use App\Repositories\Contracts\IWalletRepository;
 use Closure;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
-use RuntimeException;
 
 class WalletMiddleware
 {
@@ -31,10 +31,14 @@ class WalletMiddleware
         }
 
         $httpWallet = $request->header('x-wallet');
-        $wallet = $this->walletRepository->findOne(
-            ['id' => $httpWallet, 'user_id' => Auth::user()->id],
-            ['id', 'type', 'balance', 'code']
-        );
+        try {
+            $wallet = $this->walletRepository->findOne(
+                ['id' => $httpWallet, 'user_id' => Auth::user()->id],
+                ['id', 'type', 'balance', 'code']
+            );
+        } catch (ModelNotFoundException $e) {
+            throw new RuntimeException('Wallet forbidden', 403);
+        }
         
         Auth::user()->wallet = $wallet;
         return $next($request);

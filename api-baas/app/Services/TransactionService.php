@@ -3,15 +3,19 @@
 namespace App\Services;
 
 use App\Enums\TransactionStatusEnum;
+use App\Exceptions\RuntimeException;
 use App\Libs\IMessageBroker;
 use App\Models\User;
 use App\Repositories\Contracts\IKeyRepository;
 use App\Repositories\Contracts\ITransactionRepository;
 use App\Repositories\Contracts\IWalletRepository;
 use App\Services\Contracts\ITransactionService;
+use App\Validators\TransactionValidator;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
-use RuntimeException;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class TransactionService implements ITransactionService
 {
@@ -49,17 +53,24 @@ class TransactionService implements ITransactionService
 
     public function create(User $user, array $data)
     {
+        $validator = Validator::make($data, TransactionValidator::CREATE);
+        if ($validator->fails()) throw new ValidationException($validator);
+
         $walletTo = $this->walletRepository->find($user->wallet->id, ['id', 'balance']);
         $balance = $walletTo->balance - $data['total'];
-        if ($balance <= 0) throw new RuntimeException('Insufficient balance', 422);
+        if ($balance < 0) throw new RuntimeException('Insufficient balance', 422);
 
         try {
             DB::beginTransaction();
 
-            $key = $this->keyRepository->findOne(
-                ['key' => $data['key_code'], 'type' => $data['key_type']],
-                ['id', 'wallet_id']
-            );
+            try {
+                $key = $this->keyRepository->findOne(
+                    ['key' => $data['key_code'], 'type' => $data['key_type']],
+                    ['id', 'wallet_id']
+                );
+            } catch (ModelNotFoundException $e) {
+                throw new RuntimeException('Key not found', 404);
+            }
 
             $data = [
                 'wallet_from' => $user->wallet->id,

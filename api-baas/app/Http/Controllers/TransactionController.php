@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Resources\TransactionResource;
 use App\Services\Contracts\ITransactionService;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +21,6 @@ class TransactionController extends Controller
 
     public function store(Request $request)
     {
-        //TODO: validation request
         $transaction = $this->service->create(
             Auth::user(),
             $request->all()
