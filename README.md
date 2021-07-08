@@ -13,7 +13,8 @@ Antes de rodar a aplicação é necessário criar uma conta no [Mailtrap](https:
 configurar o arquivo (chaves MAIL*) `.docker/api-mail.env` com as chaves de configuração.
 
 Após configurado, basta executar o script `bootstrap.sh` para subir automagicamente (`docker-compose`) 
-toda a infraestrutura de serviços.
+toda a infraestrutura de serviços, criar a estrutura de de banco de dados (`migration strategy`) e 
+criar usuários, carteiras e chaves pix (`seed strategy`).
 ```sh
 $ ./bootstrap.sh
 ```
@@ -47,7 +48,7 @@ A criação dos tokens de acesso é de responsabilidade do serviço `api-identit
         ```json
             {
                 "doc": "21540411419",
-                "password": "123456",
+                "password": "123456" //senha padrão,
             }
         ```
 + Response (application/json)
@@ -101,6 +102,10 @@ com toda a infraestrutura de banco de dados e filas.
                 }
             }
         ```
+
+### Observações
+Antes de invocar os endpoints, verifique os usuários, carteiras e chaves que foram criados na base de dados 
+e informe os respectivos valores nos parâmetros das requisições.
 
 ## Autor
 Lucas Costa – [Linkedin](https://www.linkedin.com/in/lucashcruzcosta/)
