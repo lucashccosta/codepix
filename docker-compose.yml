@@ -69,6 +69,19 @@ services:
             - db
             - broker
 
+    api-mail:
+        container_name: codepix_api_mail
+        build: ./api-mail
+        ports: 
+            - 3050:3050
+        networks: 
+            - app_network
+        env_file:
+            - ./.docker/api-mail.env
+        restart: always
+        depends_on: 
+            - broker
+
 volumes:
   db_data: {}
   broker_data: {}
