@@ -42,7 +42,7 @@ Nossa API utiliza [Json Web Tokens](https://jwt.io/) como forma de autenticaçã
 A criação dos tokens de acesso é de responsabilidade do serviço `api-identity`.
 
 ### Solicitar token de acesso
-+ Endpoint: [POST] [api-identity-host]/sessions
++ Endpoint: [POST] http://localhost:3020/sessions
 + Request (application/json)
     + Body
         ```json
@@ -71,7 +71,7 @@ do serviço `api-baas`. Conforme pode ser visto no diagrama arquitetural, esse s
 com toda a infraestrutura de banco de dados e filas.
 
 ### Simular transferência
-+ Endpoint: [POST] [api-baas-host]/api/transactions
++ Endpoint: [POST] http://localhost:3030/api/transactions
 + Request (application/json)
     + Headers
         ```sh
@@ -104,8 +104,15 @@ com toda a infraestrutura de banco de dados e filas.
         ```
 
 ### Observações
-Antes de invocar os endpoints, verifique os usuários, carteiras e chaves que foram criados na base de dados 
++ Antes de invocar os endpoints, verifique os usuários, carteiras e chaves que foram criados na base de dados 
 e informe os respectivos valores nos parâmetros das requisições.
++ As seguintes portas precisam estar disponíveis para rodar corretamente os serviços:
+    + PostgresDB: 5432
+    + RabbitMQ: 5672 e 15672
+    + Api-identity: 3020
+    + Api-baas: 3030
+    + Api-core: 3040
+    + Api-mail: 3050
 
 ## Autor
 Lucas Costa – [Linkedin](https://www.linkedin.com/in/lucashcruzcosta/)
