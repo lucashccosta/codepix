@@ -113,6 +113,9 @@ e informe os respectivos valores nos parâmetros das requisições.
     + Api-baas: 3030
     + Api-core: 3040
     + Api-mail: 3050
++ O arquivo `codePix.postman.json` é o json dos endpoints exportados da ferramenta API Client 
+[Postman](https://www.postman.com/). Se preferir, acesse este link da 
+[documentação da API](https://documenter.getpostman.com/view/51603/Tzm6jvco).
 
 ## Autor
 Lucas Costa – [Linkedin](https://www.linkedin.com/in/lucashcruzcosta/)
