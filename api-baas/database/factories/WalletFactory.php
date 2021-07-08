@@ -28,7 +28,8 @@ class WalletFactory extends Factory
                 rand(0,1)  
                 ? WalletTypeEnum::BUSINESS
                 : WalletTypeEnum::PERSONAL
-            )
+            ),
+            'balance' => 10000 //100 reais
         ];
     }
 }
