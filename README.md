@@ -68,13 +68,7 @@ A criação dos tokens de acesso é de responsabilidade do serviço `api-identit
     + Body
         ```json
             {
-                "id": "d295b2f1-75f0-4193-8854-50a05b771239",
-                "search": "notebooks",
-                "updatedAt": "2020-07-15T18:53:32.255Z",
-                "createdAt": "2020-07-15T18:53:32.255Z",
-                "total_results": 0,
-                "total_searched": 0,
-                "status": "processing"
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRjYWYxZjBhLWI4YTUtNDRmMy1hYTU3LTM2YjMxZWQxMmZhMiIsImRvYyI6IjIxNTQwNDExNDE5IiwiaWF0IjoxNjI1NzgzNTc5LCJleHAiOjE2MjU3ODcxNzl9.9-ziGBZRZJGKOdW6Y-E_ldRCQIThUZUvQRuiGfDqkds"
             }
         ```
 
