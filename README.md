@@ -8,6 +8,19 @@ lojistas e clientes comuns. A aplicação foi separada em 4 serviços (`api-baas
 
 ![](./.github/assets/codepix-bank-simulator-arch.png)
 
+# Filas
+Para a gestão de filas, o Codepix utiliza o [RabbitMQ](https://www.rabbitmq.com/). O RabbitMQ é um 
+software open source de mensageria que fornece uma forma de comunicação assíncrona de dados entre 
+processos, aplicações ou servidores. 
+
+![](./.github/assets/codepix-queues.png)
+
+# Banco de dados
+O banco de dados utilizado foi o [PostgreSQL](https://www.postgresql.org/). PostgreSQL é um sistema 
+gerenciador de banco de dados objeto relacional, desenvolvido como projeto de código aberto.
+
+![](./.github/assets/codepix-db.png)
+
 # Rodando a aplicação
 Antes de rodar a aplicação é necessário criar uma conta no [Mailtrap](https://mailtrap.io/) e 
 configurar o arquivo (chaves MAIL*) `.docker/api-mail.env` com as chaves de configuração.
